@@ -11,9 +11,7 @@ services:
       - key: PORT
         value: 3001
       - key: DATABASE_URL
-        fromDatabase:
-          name: drug-trials-db
-          property: connectionString
+        value: postgresql://neondb_owner:npg_Bl9kug4wxKzN@ep-weathered-paper-a1mbh5zv-pooler.ap-southeast-1.aws.neon.tech/drug_trials?sslmode=require&channel_binding=require
       - key: JWT_SECRET
-        generateValue: true
+        value: 0ec77252c0b6a5415b4acd7cc615b6e50c7941be36293b883ff74aceff1d0b1a737fe925f1ac3e5627398cdaacb64cb261dc5a79f75511fd4006f172c35d6ea9
     healthCheckPath: /api/health

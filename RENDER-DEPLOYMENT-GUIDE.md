@@ -18,8 +18,8 @@
    ```
    NODE_ENV=production
    PORT=3001
-   DATABASE_URL=your_neon_connection_string
-   JWT_SECRET=your_random_secret_key
+   DATABASE_URL=postgresql://neondb_owner:npg_Bl9kug4wxKzN@ep-weathered-paper-a1mbh5zv-pooler.ap-southeast-1.aws.neon.tech/drug_trials?sslmode=require&channel_binding=require
+   JWT_SECRET=0ec77252c0b6a5415b4acd7cc615b6e50c7941be36293b883ff74aceff1d0b1a737fe925f1ac3e5627398cdaacb64cb261dc5a79f75511fd4006f172c35d6ea9
    ```
 
 6. **Click:** "Create Web Service"
