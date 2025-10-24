@@ -97,33 +97,6 @@ function App() {
     }
   };
 
-  const handleAddTrial = async (trialData) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/trials`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(trialData)
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        setUser(data.user);
-        setCurrentView('dashboard');
-        loadTrials();
-      } else {
-        setMessage(data.error || 'Login failed');
-      }
-    } catch (error) {
-      setMessage('Error: ' + error.message);
-    }
-  };
 
   const handleLogout = () => {
     localStorage.clear();
