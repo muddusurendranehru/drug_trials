@@ -5,7 +5,7 @@ import RealSearchEngine from './RealSearchEngine';
 const API_URL = 'http://localhost:3001/api';
 
 function App() {
-  const [currentView, setCurrentView] = useState('signup');
+  const [currentView, setCurrentView] = useState('login');
   const [user, setUser] = useState(null);
   const [trials, setTrials] = useState([]);
   const [message, setMessage] = useState('');
@@ -51,6 +51,31 @@ function App() {
     }
   };
 
+  const handleLogin = async (formData) => {
+    try {
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setUser(data.user);
+        setCurrentView('dashboard');
+        loadTrials();
+        setMessage('');
+      } else {
+        setMessage(data.error || 'Login failed');
+      }
+    } catch (error) {
+      setMessage('Error: ' + error.message);
+    }
+  };
+
   const handleSignup = async (formData) => {
     try {
       const response = await fetch(`${API_URL}/signup`, {
@@ -72,12 +97,16 @@ function App() {
     }
   };
 
-  const handleLogin = async (formData) => {
+  const handleAddTrial = async (trialData) => {
     try {
-      const response = await fetch(`${API_URL}/login`, {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/trials`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(trialData)
       });
       
       const data = await response.json();
@@ -129,11 +158,11 @@ function App() {
 
   return (
     <div className="App">
-      {currentView === 'signup' && (
-        <SignupForm onSubmit={handleSignup} message={message} />
-      )}
       {currentView === 'login' && (
         <LoginForm onSubmit={handleLogin} message={message} />
+      )}
+      {currentView === 'signup' && (
+        <SignupForm onSubmit={handleSignup} message={message} />
       )}
       {currentView === 'dashboard' && (
         <Dashboard 
@@ -212,7 +241,7 @@ function SignupForm({ onSubmit, message }) {
         />
         <button type="submit">Sign Up</button>
       </form>
-      <p>Already have an account? <a href="#" onClick={() => window.location.reload()}>Login</a></p>
+      <p>Already have an account? <button onClick={() => setCurrentView('login')}>Login</button></p>
       {message && <div className="message">{message}</div>}
     </div>
   );
@@ -249,7 +278,7 @@ function LoginForm({ onSubmit, message }) {
         />
         <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <a href="#" onClick={() => window.location.reload()}>Sign Up</a></p>
+      <p>Don't have an account? <button onClick={() => setCurrentView('signup')}>Sign Up</button></p>
       {message && <div className="message">{message}</div>}
     </div>
   );
@@ -368,6 +397,43 @@ function Dashboard({ user, trials, onAddTrial, onLogout, message, showSearchEngi
         </section>
       </div>
       
+      {message && <div className="message">{message}</div>}
+    </div>
+  );
+}
+
+function LoginForm({ onSubmit, message }) {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
+  return (
+    <div className="form-container">
+      <h1>Login</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={(e) => setFormData({...formData, email: e.target.value})}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={(e) => setFormData({...formData, password: e.target.value})}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <button onClick={() => window.location.reload()}>Sign Up</button></p>
       {message && <div className="message">{message}</div>}
     </div>
   );
