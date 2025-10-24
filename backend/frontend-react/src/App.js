@@ -3,7 +3,7 @@ import './App.css';
 import RealSearchEngine from './RealSearchEngine';
 import SmartSearch from './SmartSearch';
 
-const API_URL = 'http://localhost:3001/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://drug-trials-backend.onrender.com/api';
 
 function App() {
   const [currentView, setCurrentView] = useState('login');
