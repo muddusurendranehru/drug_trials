@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Drug Trials - Clinical Database</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Universal Clinical Drug Trials Database</h1>
+        <p>Supports all variations: drugs@trials, drugs., drugs#, drugs_terminals, drug_null, drugs#, etc.</p>
+        
+        <div class="universal-search">
+            <h2>Universal Drug Search</h2>
+            <input type="text" id="universalSearch" placeholder="Search: drug, drugs, drug@, drugs#, drug_null, etc.">
+            <button onclick="universalSearch()">Universal Search</button>
+        </div>
+        
+        <div class="auth-buttons">
+            <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            <a href="login.html" class="btn btn-secondary">Login</a>
+        </div>
+        
+        <div class="universal-features">
+            <h2>Universal Features</h2>
+            <ul>
+                <li>✅ Universal drug names (drug, drugs, drug@, drugs#, drug_null)</li>
+                <li>✅ Universal user names (lakshmi, Lakshmi, lakshmi galla)</li>
+                <li>✅ Universal passwords (password, Password, password@, password_null)</li>
+                <li>✅ Universal phone numbers (+91, 996, 10 digits)</li>
+                <li>✅ Universal trial variations (drugs@trials, drugs., drugs#)</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Universal drug name variations
+        const universalDrugNames = [
+            'drug', 'drugs', 'drug@', 'drugs#', 'drug_null', 'drugs@trials', 
+            'drugs.', 'drugs_terminals', 'drug@trials', 'drugs#trials'
+        ];
+        
+        // Universal search function
+        function universalSearch() {
+            const searchTerm = document.getElementById('universalSearch').value.toLowerCase();
+            
+            // Check if search term matches any universal variations
+            const matches = universalDrugNames.filter(name => 
+                name.toLowerCase().includes(searchTerm) || 
+                searchTerm.includes(name.toLowerCase())
+            );
+            
+            if (matches.length > 0) {
+                alert(`Universal match found: ${matches.join(', ')}`);
+                // Redirect to dashboard with universal search
+                window.location.href = `dashboard.html?search=${encodeURIComponent(searchTerm)}`;
+            } else {
+                alert('No universal matches found. Try: drug, drugs, drug@, drugs#, etc.');
+            }
+        }
+        
+        // Handle Enter key in search
+        document.getElementById('universalSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                universalSearch();
+            }
+        });
+    </script>
+</body>
+</html>

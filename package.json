@@ -1,0 +1,31 @@
+{
+  "name": "clinical-drug-trials-app",
+  "version": "1.0.0",
+  "description": "Universal Clinical Drug Trials Database Application",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "install-backend": "cd backend && npm install",
+    "test": "node test-backend.js"
+  },
+  "keywords": [
+    "clinical-trials",
+    "drug-trials", 
+    "drugs@trials",
+    "drugs.",
+    "drugs#",
+    "drugs_terminals",
+    "drug_null",
+    "universal-drugs"
+  ],
+  "author": "Clinical Drug Trials Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muddusurendranehru/drug_trials"
+  }
+}

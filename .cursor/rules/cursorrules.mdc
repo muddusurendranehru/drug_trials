@@ -1,0 +1,14 @@
+---
+alwaysApply: true
+---
+1 backend first
+2 only if database is success start front end
+database middle ware front end must align
+database is neon
+tables are the important
+tables names,headings, content,schema must be seen
+dashboard customer/staff anyone must insert fetch
+names universal like example lakshmi,Lakshmi,lakshmi galla,lakshmi@galla,lakshmi_galla
+table password universal, password,Password,password@,password_null
+number phone universal, phone_number, phone number, number,+,+91, india 996 like 10 numbers 
+ALWAYS USE INTEGER PRIMARY KEYS - NO UUID, NO SERIAL, JUST INTEGER AUTO_INCREMENT

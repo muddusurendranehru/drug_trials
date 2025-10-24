@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Clinical Drug Trials</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header>
+            <h1>Clinical Drug Trials Dashboard</h1>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button onclick="logout()" class="btn btn-danger">Logout</button>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Add New Trial Form -->
+            <section class="add-trial">
+                <h2>Add New Drug Trial</h2>
+                <form id="trialForm">
+                    <div class="form-group">
+                        <input type="text" id="trial_acronym" placeholder="1. Trial Acronym (e.g., RECOVERY)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="trial_full_name" placeholder="2. Full Trial Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="drug_name" placeholder="3. Drug Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="result" placeholder="4. Result" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="brief_abstract" placeholder="5. Brief Abstract" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="image_prompt" placeholder="6. Image Generator Prompt (e.g., 'bar graph showing 30% reduction...')" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="url" id="reference_article" placeholder="7. Reference Article URL" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Trial</button>
+                </form>
+            </section>
+
+            <!-- Display Trials -->
+            <section class="trials-list">
+                <h2>Your Drug Trials</h2>
+                <div id="trialsList">
+                    <div class="loading">Loading trials...</div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user info
+        async function loadUser() {
+            try {
+                const response = await fetch(`${API_URL}/user`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    localStorage.clear();
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                const user = await response.json();
+                document.getElementById('userName').textContent = `Welcome, ${user.name}`;
+            } catch (error) {
+                console.error('Error loading user:', error);
+            }
+        }
+
+        // Load trials
+        async function loadTrials() {
+            try {
+                const response = await fetch(`${API_URL}/trials`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.status === 401) {
+                    localStorage.clear();
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                const trials = await response.json();
+                
+                const trialsList = document.getElementById('trialsList');
+                
+                if (trials.length === 0) {
+                    trialsList.innerHTML = '<div class="no-trials">No trials found. Add your first trial above!</div>';
+                    return;
+                }
+                
+                trialsList.innerHTML = trials.map(trial => `
+                    <div class="trial-card">
+                        <div class="trial-header">
+                            <h3>${trial.trial_acronym}</h3>
+                            <div class="trial-actions">
+                                <button onclick="editTrial('${trial.id}')" class="btn btn-sm btn-secondary">Edit</button>
+                                <button onclick="deleteTrial('${trial.id}')" class="btn btn-sm btn-danger">Delete</button>
+                            </div>
+                        </div>
+                        <div class="trial-content">
+                            <p><strong>Full Name:</strong> ${trial.trial_full_name}</p>
+                            <p><strong>Drug:</strong> ${trial.drug_name}</p>
+                            <p><strong>Result:</strong> ${trial.result}</p>
+                            <p><strong>Abstract:</strong> ${trial.brief_abstract}</p>
+                            <p><strong>Image Prompt:</strong> ${trial.image_prompt}</p>
+                            <p><strong>Reference:</strong> <a href="${trial.reference_article}" target="_blank">View Article</a></p>
+                            <small>Added: ${new Date(trial.created_at).toLocaleDateString()}</small>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading trials:', error);
+                document.getElementById('trialsList').innerHTML = '<div class="error">Error loading trials</div>';
+            }
+        }
+
+        // Add trial
+        document.getElementById('trialForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const trialData = {
+                trial_acronym: document.getElementById('trial_acronym').value,
+                trial_full_name: document.getElementById('trial_full_name').value,
+                drug_name: document.getElementById('drug_name').value,
+                result: document.getElementById('result').value,
+                brief_abstract: document.getElementById('brief_abstract').value,
+                image_prompt: document.getElementById('image_prompt').value,
+                reference_article: document.getElementById('reference_article').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/trials`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(trialData)
+                });
+                
+                if (response.ok) {
+                    alert('Trial added successfully!');
+                    document.getElementById('trialForm').reset();
+                    loadTrials();
+                } else {
+                    const error = await response.json();
+                    alert('Error adding trial: ' + error.error);
+                }
+            } catch (error) {
+                alert('Error adding trial: ' + error.message);
+            }
+        });
+
+        // Delete trial
+        async function deleteTrial(trialId) {
+            if (!confirm('Are you sure you want to delete this trial?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/trials/${trialId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    alert('Trial deleted successfully!');
+                    loadTrials();
+                } else {
+                    const error = await response.json();
+                    alert('Error deleting trial: ' + error.error);
+                }
+            } catch (error) {
+                alert('Error deleting trial: ' + error.message);
+            }
+        }
+
+        // Edit trial (placeholder for future implementation)
+        function editTrial(trialId) {
+            alert('Edit functionality coming soon!');
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        // Initialize dashboard
+        loadUser();
+        loadTrials();
+    </script>
+</body>
+</html>
+

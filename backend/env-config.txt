@@ -1,0 +1,8 @@
+# Copy this content to your .env file in the backend directory
+
+DATABASE_URL=postgresql://neondb_owner:npg_Bl9kug4wxKzN@ep-weathered-paper-a1mbh5zv-pooler.ap-southeast-1.aws.neon.tech/drug_trials?sslmode=require&channel_binding=require
+
+JWT_SECRET=clinical_drug_trials_super_secret_jwt_key_2024_secure_random_string
+
+PORT=3000
+NODE_ENV=development

@@ -1,0 +1,14 @@
+# API Keys for Medical Database Integration
+# Copy this file to .env and add your actual API keys
+
+# OpenAI API Key (for AI-powered search)
+REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
+
+# PubMed API (free, no key needed)
+# ClinicalTrials.gov API (free, no key needed)
+
+# Optional: EMBASE API Key (requires subscription)
+REACT_APP_EMBASE_API_KEY=your_embase_api_key_here
+
+# Optional: Cochrane Library API Key
+REACT_APP_COCHRANE_API_KEY=your_cochrane_api_key_here

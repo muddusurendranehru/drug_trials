@@ -1,0 +1,21 @@
+# Render Deployment Configuration
+# Clinical Drug Trials Application
+
+services:
+  - type: web
+    name: clinical-drug-trials-backend
+    env: node
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_Bl9kug4wxKzN@ep-weathered-paper-a1mbh5zv-pooler.ap-southeast-1.aws.neon.tech/drug_trials?sslmode=require&channel_binding=require
+      - key: JWT_SECRET
+        value: clinical_drug_trials_universal_jwt_secret_2024_secure_production_key
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+      - key: FRONTEND_URL
+        value: https://clinical-drug-trials-app.onrender.com

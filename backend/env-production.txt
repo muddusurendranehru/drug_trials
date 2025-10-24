@@ -1,0 +1,15 @@
+# CLINICAL DRUG TRIALS - PRODUCTION ENVIRONMENT
+# Copy this content to your .env file in the backend directory
+
+# Database Configuration (Neon PostgreSQL)
+DATABASE_URL=postgresql://neondb_owner:npg_Bl9kug4wxKzN@ep-weathered-paper-a1mbh5zv-pooler.ap-southeast-1.aws.neon.tech/pcos_homaiq_score?sslmode=require&channel_binding=require
+
+# JWT Secret (Secure random string for authentication)
+JWT_SECRET=clinical_drug_trials_pcos_homaiq_score_2024_secure_jwt_secret_key_xyz789abc
+
+# Server Configuration
+PORT=3039
+NODE_ENV=development
+
+# Universal Frontend Support (drugs@trials, drugs., drugs#, drugs_terminals, etc.)
+FRONTEND_URL=http://localhost:3039
