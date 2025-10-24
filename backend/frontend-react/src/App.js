@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import RealSearchEngine from './RealSearchEngine';
+import SmartSearch from './SmartSearch';
 
 const API_URL = 'http://localhost:3001/api';
 
@@ -10,6 +11,7 @@ function App() {
   const [trials, setTrials] = useState([]);
   const [message, setMessage] = useState('');
   const [showSearchEngine, setShowSearchEngine] = useState(false);
+  const [showSmartSearch, setShowSmartSearch] = useState(false);
 
   // Check if user is logged in
   useEffect(() => {
@@ -146,10 +148,15 @@ function App() {
           message={message}
           showSearchEngine={showSearchEngine}
           setShowSearchEngine={setShowSearchEngine}
+          showSmartSearch={showSmartSearch}
+          setShowSmartSearch={setShowSmartSearch}
         />
       )}
       {showSearchEngine && (
         <RealSearchEngine onAddTrial={handleAddTrial} />
+      )}
+      {showSmartSearch && (
+        <SmartSearch trials={trials} onAddTrial={handleAddTrial} />
       )}
     </div>
   );
@@ -257,7 +264,7 @@ function LoginForm({ onSubmit, message, setCurrentView }) {
   );
 }
 
-function Dashboard({ user, trials, onAddTrial, onLogout, message, showSearchEngine, setShowSearchEngine }) {
+function Dashboard({ user, trials, onAddTrial, onLogout, message, showSearchEngine, setShowSearchEngine, showSmartSearch, setShowSmartSearch }) {
   const [trialForm, setTrialForm] = useState({
     trial_acronym: '',
     trial_full_name: '',
@@ -292,7 +299,13 @@ function Dashboard({ user, trials, onAddTrial, onLogout, message, showSearchEngi
             onClick={() => setShowSearchEngine(!showSearchEngine)}
             className="search-engine-toggle"
           >
-            {showSearchEngine ? '📝 Manual Entry' : '🔍 AI Search Engine'}
+            {showSearchEngine ? '📝 Manual Entry' : '🤖 AI Search Engine'}
+          </button>
+          <button 
+            onClick={() => setShowSmartSearch(!showSmartSearch)}
+            className="search-engine-toggle"
+          >
+            {showSmartSearch ? '📝 Manual Entry' : '🔍 Smart Search'}
           </button>
           <button onClick={onLogout}>Logout</button>
         </div>

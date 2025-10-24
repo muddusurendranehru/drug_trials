@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: drug-trials-frontend
+    env: static
+    buildCommand: cd backend/frontend-react && npm install && npm run build
+    staticPublishPath: backend/frontend-react/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://drug-trials-backend.onrender.com/api
+      - key: REACT_APP_OPENAI_API_KEY
+        value: your_openai_api_key_here

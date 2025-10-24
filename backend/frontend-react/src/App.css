@@ -278,3 +278,51 @@ a:hover {
   background: #f8d7da;
   border-color: #f5c6cb;
 }
+
+/* Mobile-First Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 10px;
+  }
+  
+  .trial-card {
+    margin-bottom: 15px;
+  }
+  
+  .search-engine-toggle {
+    font-size: 12px;
+    padding: 8px 12px;
+    margin: 2px;
+  }
+  
+  .search-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .trial-result-card {
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+  
+  .trials-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .dashboard header div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .search-engine-toggle {
+    flex: 1;
+    min-width: 120px;
+  }
+}
