@@ -292,7 +292,8 @@ a:hover {
   .search-engine-toggle {
     font-size: 12px;
     padding: 8px 12px;
-    margin: 2px;
+    margin: 5px;
+    min-height: 44px; /* Touch-friendly */
   }
   
   .search-input {
@@ -312,17 +313,26 @@ a:hover {
 @media (max-width: 480px) {
   .dashboard header {
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
   }
   
   .dashboard header div {
     display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
   }
   
   .search-engine-toggle {
-    flex: 1;
-    min-width: 120px;
+    width: 100%;
+    min-width: auto;
+    margin: 5px 0;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+  
+  .dashboard header button {
+    width: 100%;
+    margin: 5px 0;
   }
 }
