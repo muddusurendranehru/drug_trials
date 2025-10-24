@@ -132,10 +132,10 @@ function App() {
   return (
     <div className="App">
       {currentView === 'login' && (
-        <LoginForm onSubmit={handleLogin} message={message} />
+        <LoginForm onSubmit={handleLogin} message={message} setCurrentView={setCurrentView} />
       )}
       {currentView === 'signup' && (
-        <SignupForm onSubmit={handleSignup} message={message} />
+        <SignupForm onSubmit={handleSignup} message={message} setCurrentView={setCurrentView} />
       )}
       {currentView === 'dashboard' && (
         <Dashboard 
@@ -155,7 +155,7 @@ function App() {
   );
 }
 
-function SignupForm({ onSubmit, message }) {
+function SignupForm({ onSubmit, message, setCurrentView }) {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -220,7 +220,7 @@ function SignupForm({ onSubmit, message }) {
   );
 }
 
-function LoginForm({ onSubmit, message }) {
+function LoginForm({ onSubmit, message, setCurrentView }) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
