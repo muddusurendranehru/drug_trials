@@ -2,7 +2,7 @@
 // Additional JavaScript functionality
 
 // API Configuration
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:3039/api';
 
 // Utility functions
 const utils = {

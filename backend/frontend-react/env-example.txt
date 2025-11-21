@@ -1,6 +1,9 @@
 # API Keys for Medical Database Integration
 # Copy this file to .env and add your actual API keys
 
+# Backend API
+REACT_APP_API_URL=http://localhost:3039/api
+
 # OpenAI API Key (for AI-powered search)
 REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
 

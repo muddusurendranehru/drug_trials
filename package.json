@@ -27,5 +27,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/muddusurendranehru/drug_trials"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.3"
   }
 }

@@ -101,17 +101,28 @@ SELECT
 FROM drug_trials;
 
 -- ===========================================
--- 7. VERIFY UUID PRIMARY KEYS
+-- 7. VERIFY INTEGER PRIMARY KEYS + IDENTITY
 -- ===========================================
-SELECT 'UUID PRIMARY KEY VERIFICATION:' as section;
+SELECT 'INTEGER PRIMARY KEY VERIFICATION:' as section;
 SELECT 
     'users' as "Table",
-    count(*) as "Total Rows",
-    count(CASE WHEN id::text ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' THEN 1 END) as "Valid UUIDs"
+    min(id) as "Min ID",
+    max(id) as "Max ID",
+    bool_and(id::text !~ '[^0-9]') as "All Integers"
 FROM users
 UNION ALL
 SELECT 
     'drug_trials' as "Table",
-    count(*) as "Total Rows", 
-    count(CASE WHEN id::text ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$' THEN 1 END) as "Valid UUIDs"
+    min(id) as "Min ID",
+    max(id) as "Max ID",
+    bool_and(id::text !~ '[^0-9]') as "All Integers"
 FROM drug_trials;
+
+SELECT 'IDENTITY COLUMN DEFAULTS:' as section;
+SELECT 
+    table_name,
+    column_name,
+    column_default
+FROM information_schema.columns
+WHERE table_name IN ('users', 'drug_trials')
+  AND column_name = 'id';
